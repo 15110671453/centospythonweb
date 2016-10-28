@@ -1,0 +1,57 @@
+研究webpy的程序架构及数据流走向，
+因为了解了这些，就可以对自己的需求进行有的放矢
+
+2.webpy数据流程
+参见上图可以很清晰的看书webpy的数据流走向，当程序启动完毕，有新的request请求到来，首先接收网络socket数据，对request进行初步分析，调用wsgi_app指向的func，就是application中的wsgigunc()进行主要的业务处理，给出result后，再从上到下将data顺序返回，最后通过socket 发送出去。
+其中有很多细节处理，我也没有仔细看，特别是网络层的代码，应用层中比较特殊的比如request的是/static/…路径下，则直接去读取该路径下的文件并返回，若没有该文件则返回NOT FOUND。
+在application的wsgifunc函数中，首先先执行注册在processers列表中的回调函数，然后再根据URL映射关系匹配到对应的类去执行，具体处理类的操作就是开发者自己要干的事了。比如连接db,解析from、利用template、运用session等。
+
+3.服务启动
+如果你在命令行下面，请输入:: $ python code.py http://0.0.0.0:8080/
+
+现在你的web.py应用正运行在你电脑上的一个真正的web服务器上。 访问那个URL，然后你应该看到"Hello, world!" (你可以通过把IP地址/端口加在"code.py"的后面，来控制web.py在哪里启动服务器。你也可以让它运行在fastcgi或scgi服务器上-------这里是指nginx apache吗)。
+
+注意: 如果你不能或者不想使用默认端口，你可以使用这样的命令来指定端口号:
+
+$ python code.py 8080
+
+[root@iZ2850357ruZ python]# ls -la
+total 28
+drwxr-xr-x 2 root root   4096 Oct 28 17:50 .
+drwxr-xr-x 9 www  ftpdyn 4096 Oct 28 16:40 ..
+-rw-r--r-- 1 root root   4777 Oct 28 17:19 centospythondevelop1
+-rw-r--r-- 1 root root   1036 Oct 28 17:28 centospython研究webpy的程序架构及数据流走向
+-rw-r--r-- 1 root root    171 Oct 28 17:43 code.py
+-rw-r--r-- 1 root root    644 Oct 28 17:50 code.pyc
+[root@iZ2850357ruZ python]# vi
+
+启动后发现code.py的目录下多了一个文件 内容如下
+[root@iZ2850357ruZ python]# vi code.pyc
+
+^Có^M
+§^]^SXc^@^@^@^@^@^@^@^@^C^@^@^@@^@^@^@sW^@^@^@d^@^@d^A^@l^@^@Z^@^@d^F^@Z^A^@d^C^@d^G^@d^D^@<84>^@^@<83>^@^@YZ^B^@e^C^@d^E^@k^B^@rS^@e^@^@j^D^@e^A^@e^E^@<83>^@^@<83>^B^@Z^F^@e^F^@j^G^@<83>^@^@^An^@^@d^A^@S(^H^@^@^@iÿÿÿÿNt^A^@^@^@/t^E^@^@^@indexc^@^@^@^@^@^@^@^@^A^@^@^@B^@^@^@s^Q^@^@^@e^@^@Z^A^@d^@^@<84>^@^@Z^B^@RS(^A^@^@^@c^A^@^@^@^A^@^@^@^A^@^@^@C^@^@^@s^D^@^@^@d^A^@S(^B^@^@^@Ns^R^@^@^@HELLO,world!python(^@^@^@^@(^A^@^@^@t^D^@^@^@self(^@^@^@^@(^@^@^@^@s$^@^@^@/usr/local/nginx/html/python/code.pyt^C^@^@^@GET^E^@^@^@s^B^@^@^@^@^A(^C^@^@^@t^H^@^@^@__name__t
+^@^@^@__module__R^C^@^@^@(^@^@^@^@(^@^@^@^@(^@^@^@^@s$^@^@^@/usr/local/nginx/html/python/code.pyR^A^@^@^@^D^@^@^@s^B^@^@^@^F^At^H^@^@^@__main__(^B^@^@^@R^@^@^@^@s^E^@^@^@index(^@^@^@^@(^H^@^@^@t^C^@^@^@webt^D^@^@^@urlsR^A^@^@^@R^D^@^@^@t^K^@^@^@applicationt^G^@^@^@globalst^C^@^@^@appt^C^@^@^@run(^@^@^@^@(^@^@^@^@(^@^@^@^@s$^@^@^@/usr/local/nginx/html/python/code.pyt^H^@^@^@<module>^A^@^@^@s
+^@^@^@^L^A^F^B^S^C^L^A^U^A
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+"code.pyc" [noeol][converted] 4L, 656C
+
+
+貌似时临时生成的网站应用的目录结构配置文件
+
+
+一句python命令启动一个web服务器？？？？
+
+意味着你将 code.py 随便放到任意目录下 执行$ python code.py 8080 启动python服务器 该code.py所在目录
+就是该python的应用主目录
+
+
+
+我的python应用所在主目录/usr/local/nginx/html/python

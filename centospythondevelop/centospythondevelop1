@@ -1,0 +1,157 @@
+centospythondevelop1
+
+
+http://webpy.org
+
+
+----------------------------------#################--------------------------
+pip类似RedHat里面的yum，安装Python包非常方便。本节详细介绍pip的安装、以及使用方法。
+
+pip查看已经安装的包
+# pip show --files SomePackage
+  Name: SomePackage
+  Version: 1.0
+  Location: /my/env/lib/pythonx.x/site-packages
+  Files:
+   ../somepackage/__init__.py
+   [...]
+
+
+ pip检查哪些需要更新
+ # pip list --outdated
+  SomePackage (Current: 1.0 Latest: 2.0)
+
+
+  pip升级包
+  # pip install --upgrade SomePackage
+  [...]
+  Found existing installation: SomePackage 1.0
+  Uninstalling SomePackage:
+    Successfully uninstalled SomePackage
+  Running setup.py install for SomePackage
+  Successfully installed SomePackage
+
+
+pip卸载包
+$ pip uninstall SomePackage
+  Uninstalling SomePackage:
+    /my/env/lib/pythonx.x/site-packages/somepackage
+  Proceed (y/n)? y
+  Successfully uninstalled SomePackage
+
+
+  pip参数解释
+  # pip --help
+ 
+Usage:   
+  pip <command> [options]
+ 
+Commands:
+  install                     安装包.
+  uninstall                   卸载包.
+  freeze                      按着一定格式输出已安装包列表
+  list                        列出已安装包.
+  show                        显示包详细信息.
+  search                      搜索包，类似yum里的search.
+  wheel                       Build wheels from your requirements.
+  zip                         不推荐. Zip individual packages.
+  unzip                       不推荐. Unzip individual packages.
+  bundle                      不推荐. Create pybundles.
+  help                        当前帮助.
+ 
+General Options:
+  -h, --help                  显示帮助.
+  -v, --verbose               更多的输出，最多可以使用3次
+  -V, --version               现实版本信息然后退出.
+  -q, --quiet                 最少的输出.
+  --log-file <path>           覆盖的方式记录verbose错误日志，默认文件：/root/.pip/pip.log
+  --log <path>                不覆盖记录verbose输出的日志.
+  --proxy <proxy>             Specify a proxy in the form [user:passwd@]proxy.server:port.
+  --timeout <sec>             连接超时时间 (默认15秒).
+  --exists-action <action>    Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup.
+  --cert <path>               证书.
+
+------------------------------#################------------------
+
+[root@iZ2850357ruZ ~]# which python
+/usr/bin/python
+[root@iZ2850357ruZ ~]# python --version
+Python 2.7.5
+[root@iZ2850357ruZ ~]# which pip
+/usr/bin/pip
+[root@iZ2850357ruZ ~]# pip install web.py
+You are using pip version 7.1.0, however version 8.1.2 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+Collecting web.py
+  Downloading http://mirrors.aliyun.com/pypi/packages/8b/95/66412912c8093e9167a58248fd646f95ff3d41f2e5be5300c27b0cb5de52/web.py-0.38.tar.gz (91kB)
+    100% |████████████████████████████████| 94kB 1.4MB/s 
+Installing collected packages: web.py
+  Running setup.py install for web.py
+Successfully installed web.py-0.38
+[root@iZ2850357ruZ ~]# 
+
+[root@iZ2850357ruZ usr]# pip show --files web.py
+You are using pip version 7.1.0, however version 8.1.2 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+---
+Metadata-Version: 1.0
+Name: web.py
+Version: 0.38
+Summary: web.py: makes web apps
+Home-page: http://webpy.org/
+Author: Anand Chitipothu
+Author-email: anandology@gmail.com
+License: Public domain
+Location: /usr/lib/python2.7/site-packages
+Requires: 
+Files:
+  web.py-0.38-py2.7.egg-info
+  web.py-0.38-py2.7.egg-info/PKG-INFO
+  web.py-0.38-py2.7.egg-info/SOURCES.txt
+  web.py-0.38-py2.7.egg-info/dependency_links.txt
+  web.py-0.38-py2.7.egg-info/top_level.txt
+  web/__init__.py
+  web/__init__.pyc
+  web/application.py
+  web/application.pyc
+  web/browser.py
+  web/browser.pyc
+  web/contrib/__init__.py
+  web/contrib/__init__.pyc
+  web/contrib/template.py
+  web/contrib/template.pyc
+  web/db.py
+  web/db.pyc
+  web/debugerror.py
+  web/debugerror.pyc
+  web/form.py
+  web/form.pyc
+  web/http.py
+  web/http.pyc
+  web/httpserver.py
+  web/httpserver.pyc
+  web/net.py
+  web/net.pyc
+  web/python23.py
+  web/python23.pyc
+  web/session.py
+  web/session.pyc
+  web/template.py
+  web/template.pyc
+  web/test.py
+  web/test.pyc
+  web/utils.py
+  web/utils.pyc
+  web/webapi.py
+  web/webapi.pyc
+  web/webopenid.py
+  web/webopenid.pyc
+  web/wsgi.py
+  web/wsgi.pyc
+  web/wsgiserver/__init__.py
+  web/wsgiserver/__init__.pyc
+  web/wsgiserver/ssl_builtin.py
+  web/wsgiserver/ssl_builtin.pyc
+  web/wsgiserver/ssl_pyopenssl.py
+  web/wsgiserver/ssl_pyopenssl.pyc
+[root@iZ2850357ruZ usr]# 

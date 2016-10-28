@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import subprocess
+import os
+import sys
+import time
+
+HOME = os.getcwd()
+SCRPET = os.path.basename(sys.argv[0])
+if len(sys.argv) != 3 or sys.argv[1] == '-h':
+    sys.exit("Usage:sudo %s ServerName {start, stop, restart}" % SCRPET)
+
+RUN = "python"
+NAME = sys.argv[1]
+OP = sys.argv[2]
+NAME_NOPOSTFIX = NAME.split(".")[0]
+PIDFILE = "var/run/%s.pid" % NAME_NOPOSTFIX
+LOGFILE = "var/log/%s_ctrl.log" % NAME_NOPOSTFIX
+
+def start():
+    print " | ".join([HOME, NAME])
+    print "Starting", NAME, "..."
+    if os.path.exists(PIDFILE):
+        print "%s has been running | PID:%s" % (NAME, open(PIDFILE).readline()), "Continue?(Y/N)"
+        k = raw_input()
+        if not k in ("Y", "y"):
+            sys.exit(1)
+    try:
+        p = subprocess.Popen([RUN, NAME], stdout=subprocess.PIPE)
+        # 输出定向到日志
+        # out = p.stdout.read()
+        # open(LOGFILE, "a").write(out)
+        
+        # 生成pidfile
+        pid = p.pid
+        open(PIDFILE, "w").write("%s" % pid)
+        print " | ".join(["Start OK", "PID:%s" % pid])
+    except Exception as e:
+        print e
+
+def stop():
+    pid = open(PIDFILE).readline()
+    print "Stopping", NAME, '...'
+    if pid:
+        if subprocess.call(["kill " + pid], shell=True) == 0:
+            print " | ".join(["Stop OK", "PID:%s" % pid])
+            if subprocess.call(["rm " + PIDFILE], shell=True) != 0:
+                print "Delete Permission Denied"
+    else:
+        print "Stop Error"
+
+def restart():
+    stop()
+    time.sleep(1)
+    start()
+    
+ops = {"start":start,"stop":stop,"restart":restart}
+
+if __name__ == "__main__":
+    ops[OP]()
